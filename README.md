@@ -37,4 +37,5 @@ app.listen((PORT, () => console.log(PORT)));
 mongo
 use <db_name>
 db.collection.insert({"key":"value"})
+show dbs
 ```
