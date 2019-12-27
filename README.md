@@ -31,3 +31,10 @@ app.listen((PORT, () => console.log(PORT)));
 
 4. Verify MongoDB is running
 `ps aux | grep -v grep | grep mongod`
+
+5. Create Database in terminal
+```
+mongo
+use <db_name>
+db.collection.insert({"key":"value"})
+```
