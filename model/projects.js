@@ -17,6 +17,7 @@ const ProjectsSchema = new Schema({
     },
 });
 
+// set Projects as collection and export the model
 const Projects = mongoose.model('Projects', ProjectsSchema);
 
 module.exports = Projects;
