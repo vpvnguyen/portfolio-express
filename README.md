@@ -27,7 +27,7 @@ node server.js
 ```
 
 ## Setup MongoDB
-1. If macOS, install mongoDB using brew. Tap the MongoDB Homebrew Tap.
+1. For macOS, install mongoDB using brew. Tap the MongoDB Homebrew Tap.
 ```
 brew tap mongodb/brew
 ```
