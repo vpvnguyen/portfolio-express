@@ -15,7 +15,7 @@ app.use(cors());
 connectMongoDB();
 
 const corsOptions = {
-    origin: 'http://ec2-13-59-49-63.us-east-2.compute.amazonaws.com/',
+    origin: process.env.DEV,
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }
 
