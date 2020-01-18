@@ -10,11 +10,17 @@ const ProjectsSchema = new Schema({
         required: true,
         unique: false,
     },
+    desc: {
+        type: String,
+        required: false,
+        unique: false,
+    },
     link: {
         type: String,
         required: true,
         unique: true,
     },
+    // date: Date
 });
 
 // set Projects as collection and export the model
