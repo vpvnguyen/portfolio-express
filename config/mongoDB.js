@@ -1,12 +1,14 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/portfolio';
+const connectMongoDB = MONGODB_URI => {
 
-const connectMongoDB = () => {
-    mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true});
-    console.log(`
-    MongoDB connected to: ${MONGODB_URI}
-    `);
-} 
+  mongoose.connect(MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
+
+  mongoose.connection.on("error", () => console.log(`${MONGODB_URI}> error occurred from the database`));
+  mongoose.connection.once("open", () => console.log(`${MONGODB_URI}> successfully opened the database`));
+};
 
 module.exports = connectMongoDB;
