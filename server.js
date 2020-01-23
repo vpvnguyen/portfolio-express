@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 3001;
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
-const corsOptions = require('./config/cors');
+const corsOptions = require('./config/cors'); // reconfigure to limit cors
 const morgan = require('morgan');
 const connectMongoDB = require('./config/mongoDB.js');
 const projectsController = require('./controller/projects.controller.js');
@@ -27,15 +27,21 @@ app.use(express.static('public'));
 // server side logging
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
 app.use(morgan('combined', { accessLogStream }));
+// allow cors
+app.use(cors());
 
 // CONTROLLER ==========================================
 app.use(projectsController);
 
 // ROUTING ========================================
 // GET - test
-app.get('/', cors(corsOptions), (req, res) => {
-    res.send('/ GET');
+app.get('/', (req, res) => {
+    res.send('/')
 });
+
+app.get('/test', (req, res) => {
+    res.send('test');
+})
 // POST - test
 app.post(`/api/:P_USERNAME`, cors(corsOptions), (req, res) => {
     console.log(req.body);
