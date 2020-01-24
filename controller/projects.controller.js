@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../model');
+const upload = require('../services/uploadImageS3');
+var singleUpload = upload.single('image');
 
 // get all projects from mongoDB
 router.get('/api/projects', (req, res) => {
@@ -53,6 +55,12 @@ router.delete('/api/projects/delete/:id', (req, res) => {
     .then(result => console.log(result))
     .catch(err => console.log(`\n db.projects: ${err}`));
 
+});
+
+router.post('/api/image/upload', (req, res) => {
+    singleUpload(req, res, err => {
+        return res.json({'imageUrl': req.file.location});
+    });
 });
 
 module.exports = router;
