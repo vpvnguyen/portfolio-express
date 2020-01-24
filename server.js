@@ -10,6 +10,7 @@ const morgan = require('morgan');
 const connectMongoDB = require('./config/mongoDB.js');
 const projectsController = require('./controller/projects.controller.js');
 
+
 // CONFIGS ==========================================
 require('dotenv').config();
 app.use(cors());
