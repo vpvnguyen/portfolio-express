@@ -28,6 +28,24 @@ router.post('/api/projects/create', (req, res) => {
     .catch(err => console.log(`\n db.Projects: ${err}`));
 });
 
+router.put('/api/projects/update/:id', (req, res) => {
+    console.log('\nPUT /api/projects/delete/:id');
+    console.log(req.params.id);
+    console.log(req.body.title);
+    console.log(req.body.desc);
+    console.log(req.body.link);
+    console.log(req.body);
+
+    db.Projects.findByIdAndUpdate(req.params.id, req.body)
+    .then(result => res.send(result))
+    // .then(result => console.log(result))
+    .catch(err => `\n db.Projects: ${err}`);
+
+    res.status(200);
+
+    // findOneAndUpdate({ _id: id }, ...)
+});
+
 router.delete('/api/projects/delete/:id', (req, res) => {
     console.log(req.params.id);
 
