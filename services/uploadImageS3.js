@@ -1,4 +1,5 @@
 // aws S3 configuration
+const aws = require('aws-sdk');
 const awsS3Config = require('../config/awsS3');
 awsS3Config();
 
