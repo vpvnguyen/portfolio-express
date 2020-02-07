@@ -8,8 +8,9 @@ const cors = require('cors');
 const corsOptions = require('./config/cors'); // reconfigure to limit cors
 const morgan = require('morgan');
 const connectMongoDB = require('./config/mongoDB.js');
-const projectsController = require('./controller/projects.controller.js');
 
+const homeController = require('./controller/home.controller.js');
+const projectsController = require('./controller/projects.controller.js');
 
 // CONFIGS ==========================================
 require('dotenv').config();
@@ -32,6 +33,7 @@ app.use(morgan('combined', { accessLogStream }));
 app.use(cors());
 
 // CONTROLLER ==========================================
+app.use(homeController);
 app.use(projectsController);
 
 // ROUTING ========================================
