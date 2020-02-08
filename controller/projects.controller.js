@@ -5,12 +5,32 @@ const upload = require('../services/uploadImageS3');
 var singleUpload = upload.single('image');
 
 // get all projects from mongoDB
+
+router.get('/api/TEST', (req, res) => {
+    console.log(`\n GET > /api/TEST`);
+
+    const projects = [
+        {
+            title: 'title',
+            link: 'link',
+            desc: 'something here',
+        },
+        {
+            title: 'title2',
+            link: 'link2',
+            desc: 'something here2',
+        }
+    ];
+
+    res.json(projects);
+});
+
 router.get('/api/projects', (req, res) => {
     console.log(`\n GET > /api/projects`);
 
     db.Projects.find({})
-    .then(result => res.send(result))
-    .catch(err => console.log(err));
+        .then(result => res.send(result))
+        .catch(err => console.log(err));
 });
 
 // create project
@@ -25,8 +45,8 @@ router.post('/api/projects/create', (req, res) => {
         link: 'link',
         date: Date
     })
-    .then(result => res.send(result))
-    .catch(err => console.log(`\n db.Projects: ${err}`));
+        .then(result => res.send(result))
+        .catch(err => console.log(`\n db.Projects: ${err}`));
 });
 
 // update project by id
@@ -35,8 +55,8 @@ router.put('/api/projects/update/:id', (req, res) => {
     console.log(req.body);
 
     db.Projects.findByIdAndUpdate(req.params.id, req.body)
-    .then(result => res.send(result))
-    .catch(err => `\n db.Projects: ${err}`);
+        .then(result => res.send(result))
+        .catch(err => `\n db.Projects: ${err}`);
 
     res.status(200);
 });
@@ -45,15 +65,15 @@ router.put('/api/projects/update/:id', (req, res) => {
 router.delete('/api/projects/delete/:id', (req, res) => {
     console.log(req.params.id);
 
-    db.Projects.remove({_id: req.params.id})
-    .then(result => console.log(result))
-    .catch(err => console.log(`\n db.projects: ${err}`));
+    db.Projects.remove({ _id: req.params.id })
+        .then(result => console.log(result))
+        .catch(err => console.log(`\n db.projects: ${err}`));
 });
 
 // upload file to aws s3
 router.post('/api/image/upload', (req, res) => {
     singleUpload(req, res, err => {
-        return res.json({'imageUrl': req.file.location});
+        return res.json({ 'imageUrl': req.file.location });
     });
 });
 
