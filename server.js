@@ -1,4 +1,5 @@
 // IMPORTS
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -11,9 +12,9 @@ const connectMongoDB = require('./config/mongoDB.js');
 
 const homeController = require('./controller/home.controller.js');
 const projectsController = require('./controller/projects.controller.js');
+const authController = require('./controller/auth.controller.js');
 
 // CONFIGS
-require('dotenv').config();
 app.use(cors());
 
 // connect mongodb
@@ -31,6 +32,7 @@ app.use(cors()); // allow cors
 // CONTROLLER
 app.use(homeController);
 app.use(projectsController);
+app.use(authController);
 
 // ROUTING
 // GET - test
@@ -42,17 +44,17 @@ app.get('/test', (req, res) => {
     res.send('test');
 })
 // POST - test
-app.post(`/api/:P_USERNAME`, cors(corsOptions), (req, res) => {
+app.post(`/test/:P_USERNAME`, cors(corsOptions), (req, res) => {
     console.log(req.body);
     res.send(req.body);
 });
 // PUT - test
-app.put(`/api/:PUT`, cors(corsOptions), (req, res) => {
+app.put(`/test/:PUT`, cors(corsOptions), (req, res) => {
     console.log(req.body);
     res.send(req.body);
 });
 // DEL - test
-app.delete(`/api/:DEL`, cors(corsOptions), (req, res) => { 
+app.delete(`/test/:DEL`, cors(corsOptions), (req, res) => { 
     console.log(req.body);
     res.send(req.body);
 });
