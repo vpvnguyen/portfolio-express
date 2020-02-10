@@ -1,4 +1,4 @@
-// IMPORTS ==========================================
+// IMPORTS
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -12,7 +12,7 @@ const connectMongoDB = require('./config/mongoDB.js');
 const homeController = require('./controller/home.controller.js');
 const projectsController = require('./controller/projects.controller.js');
 
-// CONFIGS ==========================================
+// CONFIGS
 require('dotenv').config();
 app.use(cors());
 
@@ -20,23 +20,19 @@ app.use(cors());
 const MONGODB_URI = "mongodb://localhost:27017/portfolio";
 connectMongoDB(MONGODB_URI);
 
-// MIDDLEWARE ==========================================
-// handle url encoded data; parse json
-app.use(express.urlencoded({ extended: true }));
+// MIDDLEWARE
+app.use(express.urlencoded({ extended: true })); // handle url encoded data; parse json
 app.use(express.json());
-// make public static
-app.use(express.static('public'));
-// server side logging
+app.use(express.static('public')); // make public static
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
-app.use(morgan('combined', { accessLogStream }));
-// allow cors
-app.use(cors());
+app.use(morgan('combined', { accessLogStream })); // server side logging
+app.use(cors()); // allow cors
 
-// CONTROLLER ==========================================
+// CONTROLLER
 app.use(homeController);
 app.use(projectsController);
 
-// ROUTING ========================================
+// ROUTING
 // GET - test
 app.get('/', (req, res) => {
     res.send('/')
