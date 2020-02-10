@@ -53,3 +53,15 @@ use <db_name>
 db.collection.insert({"key":"value"})
 show dbs
 ```
+
+### Authentication
+1. get ACCESS_TOKEN_SECRET using JS built in `crypto` library
+2. type node in terminal
+```
+> require('crypto').randomBytes(64).toString('hex')
+'hex string'
+> require('crypto').randomBytes(64).toString('hex')
+'hex string'
+```
+3. save both keys in dotenv as ACCESS_TOKEN_SECRET and REFRESH_TOKEN_SECRET
+4. import keys into `server.js`
