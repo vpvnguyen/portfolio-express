@@ -20,7 +20,11 @@ const ProjectsSchema = new Schema({
         required: true,
         unique: true,
     },
-    // date: Date
+    githubLink: {
+        type: String,
+        required: true,
+        unique: true,
+    },
 });
 
 // set Projects as collection and export the model
