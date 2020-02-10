@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../model');
+const jwt = require('jsonwebtoken');
 const upload = require('../services/uploadImageS3');
 var singleUpload = upload.single('image');
 
@@ -25,7 +26,7 @@ router.get('/api/TEST', (req, res) => {
     res.json(projects);
 });
 
-router.get('/api/projects', (req, res) => {
+router.get('/api/projects', verifyToken, (req, res) => {
     console.log(`\n GET > /api/projects`);
 
     db.Projects.find({})
@@ -34,7 +35,7 @@ router.get('/api/projects', (req, res) => {
 });
 
 // create project
-router.post('/api/projects/create', (req, res) => {
+router.post('/api/projects/create', verifyToken, (req, res) => {
     console.log(`\n POST > /api/projects/create`);
 
     console.log(req.body);
@@ -50,7 +51,7 @@ router.post('/api/projects/create', (req, res) => {
 });
 
 // update project by id
-router.put('/api/projects/update/:id', (req, res) => {
+router.put('/api/projects/update/:id', verifyToken, (req, res) => {
     console.log('\nPUT /api/projects/delete/:id');
     console.log(req.body);
 
@@ -62,7 +63,7 @@ router.put('/api/projects/update/:id', (req, res) => {
 });
 
 // delete project by id
-router.delete('/api/projects/delete/:id', (req, res) => {
+router.delete('/api/projects/delete/:id', verifyToken, (req, res) => {
     console.log(req.params.id);
 
     db.Projects.remove({ _id: req.params.id })
@@ -71,10 +72,27 @@ router.delete('/api/projects/delete/:id', (req, res) => {
 });
 
 // upload file to aws s3
-router.post('/api/image/upload', (req, res) => {
+router.post('/api/image/upload', verifyToken, (req, res) => {
     singleUpload(req, res, err => {
         return res.json({ 'imageUrl': req.file.location });
     });
 });
+
+// format of token
+// authorization: bearer <access_token>
+
+// verify token
+function verifyToken(req, res, next) {
+    // get auth header value
+    const bearerHeader = req.headers['authorization'];
+
+    // check if bearer is undefined
+    if (typeof bearerHeader !== undefined) {
+        console.log('defined!')
+    } else {
+        // forbidden
+        res.status(403);
+    }
+};
 
 module.exports = router;
