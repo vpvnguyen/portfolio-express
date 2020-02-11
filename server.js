@@ -1,33 +1,28 @@
-// IMPORTS
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3001;
 const fs = require('fs');
 const path = require('path');
+const morgan = require('morgan'); // server-side logging
 const cors = require('cors');
 const corsOptions = require('./config/cors'); // reconfigure to limit cors
-const morgan = require('morgan');
-const connectMongoDB = require('./config/mongoDB.js');
 
+// controllers
 const homeController = require('./controller/home.controller.js');
 const projectsController = require('./controller/projects.controller.js');
 const authController = require('./controller/auth.controller.js');
 
-// CONFIGS
-app.use(cors());
-
 // connect mongodb
-const MONGODB_URI = "mongodb://localhost:27017/portfolio";
-connectMongoDB(MONGODB_URI);
+const connectMongoDB = require('./config/mongoDB.js');
+connectMongoDB(process.env.MONGODB_URI);
 
 // MIDDLEWARE
+app.use(cors()); // allow cors
 app.use(express.urlencoded({ extended: true })); // handle url encoded data; parse json
 app.use(express.json());
 app.use(express.static('public')); // make public static
-const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' }); // create server logs
 app.use(morgan('combined', { accessLogStream })); // server side logging
-app.use(cors()); // allow cors
 
 // CONTROLLER
 app.use(homeController);
@@ -59,4 +54,5 @@ app.delete(`/test/:DEL`, cors(corsOptions), (req, res) => {
     res.send(req.body);
 });
 
-app.listen(PORT, () => console.log(`Portfolio Express Server running on PORT: ${PORT}`));
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => console.log(`<NODE_ENV: ${process.env.NODE_ENV}>Portfolio Express Server running on PORT: ${PORT}\n`));
